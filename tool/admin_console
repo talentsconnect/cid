@@ -23,6 +23,7 @@
 : ${admin_gnupgdir:=/home/cid/.gnupg}
 : ${admin_sshdir:=/home/cid/.ssh}
 : ${admin_wwwdir:=/var/www}
+: ${admin_nexusdir:=/var/nexus}
 : ${admin_tracdir:=/var/trac}
 : ${admin_interaction:=confirm}
 
@@ -86,6 +87,7 @@ admin_docker()
            --volume "cid-${admin_project}-www:${admin_wwwdir}"\
            --volume "cid-${admin_project}-gpg:${admin_gnupgdir}"\
            --volume "cid-${admin_project}-ssh:${admin_sshdir}"\
+           --volume "cid-${admin_project}-nexus:${admin_nexusdir}"\
            --volume "${admin_backupdir}:/opt/cid/var/backups"\
            --volume "${admin_configdir}:/opt/cid/var/config"\
            "$@"
@@ -151,7 +153,7 @@ admin_rm()
 admin_create()
 {
     local volume
-    for volume in git gpg jenkins postgresql-etc postgresql-lib ssh trac www; do
+    for volume in git gpg jenkins nexus ssh trac www; do
         docker volume create "cid-${admin_project}-${volume}"
     done
 }

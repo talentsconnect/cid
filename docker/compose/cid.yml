@@ -37,6 +37,16 @@ services:
   networks:
    - frontend
 
+ nexus:
+  user: nexus
+  image: sonatype/nexus3
+  deploy:
+   mode: global
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - cid-nexus:/nexus-data
+  networks:
+   - frontend
 networks:
  frontend:
  backend:
@@ -54,3 +64,6 @@ volumes:
   cid-www:
     external:
       name: cid-${cid_project}-www
+  cid-nexus:
+    external:
+      name: cid-${cid_project}-nexus
