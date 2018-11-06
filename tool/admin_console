@@ -24,6 +24,7 @@
 . "${subrdir}/config.sh"
 
 . "${subrdir}/trac.sh"
+. "${subrdir}/jenkins.sh"
 . "${subrdir}/gitserver.sh"
 
 admin_config()
