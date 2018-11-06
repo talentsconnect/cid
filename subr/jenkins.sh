@@ -11,21 +11,38 @@
 # are also available at
 # https://opensource.org/licenses/MIT
 
-: ${jenkins_dir:=/var/lib/jenkins}
+: ${jenkinsdir:=/var/lib/jenkins}
+
+# jenkins_is_enabled
+#  Predicate telling if the trac service is enabled
+
+jenkins_is_enabled()
+{
+    config_service_is_enabled 'jenkins'
+}
 
 
 # jenkins_dump FILENAME
-#  Dump Jenkins State and issue 
+#  Dump Jenkins state
 
 jenkins_dump()
 {
     local environment
     install -d -o jenkins -g jenkins "${tmpdir}/jenkins"
 
-    wlog 'Info' '%s: Copy Jenkins State.' "$1"
+    wlog 'Info' 'jenkins: Dump Jenkins state.'
     ( cd "${jenkinsdir}" && find '.' | cpio -dump "${tmpdir}/jenkins" )\
         2>&1
 }
 
+
+# jenkins_restore DUMPFILE
+#  Restore Jenkins state
+
+jenkins_restore()
+{
+    wlog 'Info' 'jenkins: Restore Jenkins state.'
+    tar xJfC "$1" "${jenkinsdir}" --strip-components 2 ./jenkins/
+}
 
 ### End of file `jenkins.sh'
