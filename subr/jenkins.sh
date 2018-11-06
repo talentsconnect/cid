@@ -45,4 +45,59 @@ jenkins_restore()
     tar xJfC "$1" "${jenkinsdir}" --strip-components 2 ./jenkins/
 }
 
+
+# jenkins_volume_db CONFIG-PROJECT
+#  List data volumes for jenkins environments
+
+jenkins_volume_db()
+{
+    cat <<EOF
+jenkins|cid-$1-jenkins|/var/lib/jenkins
+EOF
+}
+
+
+
+#
+# Jenkins Jobs
+#
+
+
+# jenkins_job_ls
+#  List defined jenkins jobs
+
+jenkins_job_ls()
+{
+    find "${jenkinsdir}/jobs" -type f -name 'config.xml'
+}
+
+
+# jenkins_job_export
+#  Export Jenkins job definitions
+#
+# This writes a tarball to stdout, containing all Jenkins job
+# definitions.
+
+jenkins_job_export()
+{
+    wlog 'Info' 'Export Jenkins job definitions.'
+    (
+        cd "${jenkinsdir}"
+        find config.xml jobs -type f -name 'config.xml' | cpio -ov -H tar
+    ) || failwith '%s: Cannot export Jenkins job definitions from this directory.' "${jenkinsdir}"
+}
+
+
+# jenkins_job_import
+#  Import Jenkins job definitions
+#
+# This reads a tarball containing Jenkins job definitions from stdin
+# and installs them.
+
+jenkins_job_import()
+{
+    wlog 'Info' 'Import Jenkins job definitions.'
+    tar xfC - "${jenkindir}"
+}
+
 ### End of file `jenkins.sh'
