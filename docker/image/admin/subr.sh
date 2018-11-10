@@ -1,4 +1,4 @@
-### Dockerfile -- Trac System for El Cid
+### subr.sh -- Install subroutines in a docker image
 
 # El Cid (https://github.com/michipili/cid)
 # This file is part of El Cid
@@ -11,12 +11,14 @@
 # are also available at
 # https://opensource.org/licenses/MIT
 
-FROM cid/linux
+su -l cid -c '
+ set -e
+ cd /opt/cid/var/src/subr
+ autoconf
+ ./configure --prefix=/opt/cid
+ bmake -I/usr/local/share/bsdowl all
+'
 
-COPY ./docker/setup/trac.sh /root/setup/
-RUN sh /root/setup/trac.sh
+( cd /opt/cid/var/src/subr && bmake -I/usr/local/share/bsdowl install )
 
-ADD ./docker/image/trac/entrypoint /usr/local/bin/entrypoint
-
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
-VOLUME ["/var/git","/var/www","/var/trac"]
+### End of file `subr.sh'

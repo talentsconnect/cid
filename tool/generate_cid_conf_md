@@ -1,4 +1,6 @@
-### Dockerfile -- Trac System for El Cid
+#!/bin/sh
+
+### generate_cid_conf_md -- Generate the cid_conf.md documentation
 
 # El Cid (https://github.com/michipili/cid)
 # This file is part of El Cid
@@ -11,12 +13,20 @@
 # are also available at
 # https://opensource.org/licenses/MIT
 
-FROM cid/linux
+: ${TOPLEVELDIR:=$(git rev-parse --show-toplevel)}
 
-COPY ./docker/setup/trac.sh /root/setup/
-RUN sh /root/setup/trac.sh
 
-ADD ./docker/image/trac/entrypoint /usr/local/bin/entrypoint
+generate_filter()
+{
+    cat <<EOF
+# cid.conf — Project configuration
 
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
-VOLUME ["/var/git","/var/www","/var/trac"]
+~~~ conf
+EOF
+    cat -
+cat <<EOF
+~~~
+EOF
+}
+
+generate_filter < "${TOPLEVELDIR}/example/cid.conf" > "${TOPLEVELDIR}/doc/cid.conf.md"

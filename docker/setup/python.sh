@@ -1,5 +1,3 @@
-### Dockerfile -- Trac System for El Cid
-
 # El Cid (https://github.com/michipili/cid)
 # This file is part of El Cid
 #
@@ -11,12 +9,12 @@
 # are also available at
 # https://opensource.org/licenses/MIT
 
-FROM cid/linux
+env DEBIAN_FRONTEND=noninteractive apt-get install -y\
+ python3\
+ python3-matplotlib\
+ python3-pip\
+ python3-pymysql\
+ sqlite3
 
-COPY ./docker/setup/trac.sh /root/setup/
-RUN sh /root/setup/trac.sh
-
-ADD ./docker/image/trac/entrypoint /usr/local/bin/entrypoint
-
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
-VOLUME ["/var/git","/var/www","/var/trac"]
+env DEBIAN_FRONTEND=noninteractive apt-get install -y\
+ nginx-extras

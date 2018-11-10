@@ -1,4 +1,4 @@
-### Dockerfile -- Trac System for El Cid
+### Makefile -- Shell Standard Library
 
 # El Cid (https://github.com/michipili/cid)
 # This file is part of El Cid
@@ -11,12 +11,17 @@
 # are also available at
 # https://opensource.org/licenses/MIT
 
-FROM cid/linux
+PACKAGE=		subr
 
-COPY ./docker/setup/trac.sh /root/setup/
-RUN sh /root/setup/trac.sh
+LIBRARY=		stdlib.sh
+LIBRARY+=		autoconf.sh
+LIBRARY+=		config.sh
+LIBRARY+=		role.sh
 
-ADD ./docker/image/trac/entrypoint /usr/local/bin/entrypoint
+LIBRARY+=		gitserver.sh
+LIBRARY+=		jenkins.sh
+LIBRARY+=		trac.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
-VOLUME ["/var/git","/var/www","/var/trac"]
+.include "shell.lib.mk"
+
+### End of file `Makefile'

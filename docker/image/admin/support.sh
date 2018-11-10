@@ -1,3 +1,5 @@
+### support.sh -- Install support programs in a docker image
+
 # El Cid (https://github.com/michipili/cid)
 # This file is part of El Cid
 #
@@ -18,3 +20,5 @@ su -l cid -c '
 '
 
 ( cd /opt/cid/var/src/support && bmake -I/usr/local/share/bsdowl install )
+
+### End of file `support.sh'
