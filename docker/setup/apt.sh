@@ -14,6 +14,13 @@
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 
+# At the time of writing, there is a problem with Debian CDN.
+cat > /etc/apt/sources.list <<APT-CONF
+deb http://ftp.de.debian.org/debian stretch main
+deb http://security.debian.org/debian-security stretch/updates main
+deb http://ftp.de.debian.org/debian stretch-updates main
+APT-CONF
+
 apt-get update -y
 apt-get upgrade -y
 apt-get install -y pinentry-curses
